@@ -1,2 +1,5 @@
 **/a.out
 **/.breakpoints
+/.idea
+/CMakeLists.txt
+/cmake-build-debug/
