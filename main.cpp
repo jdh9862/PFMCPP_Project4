@@ -239,62 +239,62 @@ FloatType& FloatType::divide(float rhs)
 
 FloatType& FloatType::add(const FloatType& rhs)
 {
-    return this->add(float(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 FloatType& FloatType::subtract(const FloatType& rhs)
 {
-    return this->subtract(float(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 FloatType& FloatType::multiply(const FloatType& rhs)
 {
-    return this->multiply(float(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 FloatType& FloatType::divide(const FloatType& rhs)
 {
-    return this->divide(float(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 FloatType& FloatType::add(const IntType& rhs)
 {
-    return this->add(float(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 FloatType& FloatType::subtract(const IntType& rhs)
 {
-    return this->subtract(float(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 FloatType& FloatType::multiply(const IntType& rhs)
 {
-    return this->multiply(float(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 FloatType& FloatType::divide(const IntType& rhs)
 {
-    return this->divide(float(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 FloatType& FloatType::add(const DoubleType& rhs)
 {
-    return this->add(float(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 FloatType& FloatType::subtract(const DoubleType& rhs)
 {
-    return this->subtract(float(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 FloatType& FloatType::multiply(const DoubleType& rhs)
 {
-    return this->multiply(float(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 FloatType& FloatType::divide(const DoubleType& rhs)
 {
-    return this->divide(float(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 DoubleType& DoubleType::add(double rhs)
@@ -327,62 +327,62 @@ DoubleType& DoubleType::divide(double rhs)
 
 DoubleType& DoubleType::add(const FloatType& rhs)
 {
-    return this->add(double(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 DoubleType& DoubleType::subtract(const FloatType& rhs)
 {
-    return this->subtract(double(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 DoubleType& DoubleType::multiply(const FloatType& rhs)
 {
-    return this->multiply(double(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 DoubleType& DoubleType::divide(const FloatType& rhs)
 {
-    return this->divide(double(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 DoubleType& DoubleType::add(const IntType& rhs)
 {
-    return this->add(double(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 DoubleType& DoubleType::subtract(const IntType& rhs)
 {
-    return this->subtract(double(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 DoubleType& DoubleType::multiply(const IntType& rhs)
 {
-    return this->multiply(double(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 DoubleType& DoubleType::divide(const IntType& rhs)
 {
-    return this->divide(double(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 DoubleType& DoubleType::add(const DoubleType& rhs)
 {
-    return this->add(double(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 DoubleType& DoubleType::subtract(const DoubleType& rhs)
 {
-    return this->subtract(double(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 DoubleType& DoubleType::multiply(const DoubleType& rhs)
 {
-    return this->multiply(double(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 DoubleType& DoubleType::divide(const DoubleType& rhs)
 {
-    return this->divide(double(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 IntType& IntType::add(int rhs)
@@ -418,62 +418,62 @@ IntType& IntType::divide(int rhs)
 
 IntType& IntType::add(const FloatType& rhs)
 {
-    return this->add(int(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 IntType& IntType::subtract(const FloatType& rhs)
 {
-    return this->subtract(int(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 IntType& IntType::multiply(const FloatType& rhs)
 {
-    return this->multiply(int(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 IntType& IntType::divide(const FloatType& rhs)
 {
-    return this->divide(int(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 IntType& IntType::add(const IntType& rhs)
 {
-    return this->add(int(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 IntType& IntType::subtract(const IntType& rhs)
 {
-    return this->subtract(int(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 IntType& IntType::multiply(const IntType& rhs)
 {
-    return this->multiply(int(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 IntType& IntType::divide(const IntType& rhs)
 {
-    return this->divide(int(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 IntType& IntType::add(const DoubleType& rhs)
 {
-    return this->add(int(*rhs.value));
+    return this->add(*rhs.value);
 }
 
 IntType& IntType::subtract(const DoubleType& rhs)
 {
-    return this->subtract(int(*rhs.value));
+    return this->subtract(*rhs.value);
 }
 
 IntType& IntType::multiply(const DoubleType& rhs)
 {
-    return this->multiply(int(*rhs.value));
+    return this->multiply(*rhs.value);
 }
 
 IntType& IntType::divide(const DoubleType& rhs)
 {
-    return this->divide(int(*rhs.value));
+    return this->divide(*rhs.value);
 }
 
 int main()
