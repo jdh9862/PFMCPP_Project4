@@ -17,7 +17,7 @@
  3) move all of your add/subtract/multiply/divide implementations out of the class.
   
  4) add user-defined conversion functions that convert to the numeric type your object holds.
-        i.e. if your type holds an int, you'll need an operator int() function.
+        i.e. if your type holds an int, you'll need an operator int() function. const
         Remember: if a member function doesn't modify any member variables of the class it exists in, what qualifier can we add to that function's signature?
  
  5) make your member variable private.
@@ -118,7 +118,7 @@ struct FloatType
     FloatType& multiply(float rhs);
     FloatType& divide(float rhs);
 
-    operator float()
+    operator float() const
     {
         return *value;
     }
@@ -141,7 +141,7 @@ struct DoubleType
     DoubleType& multiply(double rhs);
     DoubleType& divide(double rhs);
 
-    operator double()
+    operator double() const
     {
         return *value;
     }
@@ -165,7 +165,7 @@ struct IntType
     IntType& divide(int rhs);
 
 
-    operator int()
+    operator int() const
     {
         return *value;
     }
