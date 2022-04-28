@@ -428,12 +428,12 @@ IntType& IntType::powInternal(const int rhs)
 struct Point
 {
     Point(float x_, float y_) : x(x_), y(y_) { }
-    Point(double x_, double y_) : x(float(x_)), y(float(y_)) { }
-    Point(int x_, int y_) : x(float(x_)), y(float(y_)) { }
+    Point(double x_, double y_) : x(static_cast<float>(x_)), y(static_cast<float>(y_)) { }
+    Point(int x_, int y_) : x(static_cast<float>(x_)), y(static_cast<float>(y_)) { }
 
-    Point(FloatType& x_, FloatType& y_) : Point(float(x_), float(y_)) { }
-    Point(DoubleType& x_, DoubleType& y_) : Point(double(x_), double(y_)) { }
-    Point(IntType& x_, IntType& y_) : Point(int(x_), int(y_)) { }
+    Point(FloatType& x_, FloatType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
+    Point(DoubleType& x_, DoubleType& y_) : Point(static_cast<double>(x_), static_cast<double>(y_)) { }
+    Point(IntType& x_, IntType& y_) : Point(static_cast<int>(x_), static_cast<int>(y_)) { }
 
     Point& multiply(float m)
     {
@@ -444,17 +444,17 @@ struct Point
 
     Point& multiply(FloatType& rhs)
     {
-        return multiply(float(rhs));
+        return multiply(static_cast<float>(rhs));
     }
 
     Point& multiply(DoubleType& rhs)
     {
-        return multiply(float(rhs));
+        return multiply(static_cast<float>(rhs));
     }
 
     Point& multiply(IntType& rhs)
     {
-        return multiply(float(rhs));
+        return multiply(static_cast<float>(rhs));
     }
 
     void toString()
@@ -606,7 +606,7 @@ int main()
     std::cout << "Initial value of it: " << it << std::endl;
     // --------
     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << (dt.multiply(it).divide(5.0).add(double(ft))) << std::endl;
+    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << (dt.multiply(it).divide(5.0).add(static_cast<double>(ft))) << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
     
