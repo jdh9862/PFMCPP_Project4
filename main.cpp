@@ -182,6 +182,8 @@ struct HeapA
 
 #include <iostream>
 #include <cmath>
+#include <functional>
+#include <memory>
 
 struct DoubleType;
 struct IntType;
