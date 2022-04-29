@@ -478,18 +478,30 @@ void part3()
     IntType it ( 34 );
     DoubleType pi( 3.14 );
 
-    std::cout << "The result of FloatType^4 divided by IntType is: "
-              << ((((ft *= ft) *= ft) *= ft) /= static_cast<float>(it)) << std::endl;
-    std::cout << "The result of DoubleType times 3 plus IntType is : " << ((dt *= 3) += it) << std::endl;
-    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: "
-              << (static_cast<int>(((it /= static_cast<int>(pi)) *= static_cast<int>(dt)) -= static_cast<int>(ft)))
-              << std::endl;
+    ft *= ft;
+    ft *= ft;
+    ft /= static_cast<float>(it);
+    std::cout << "The result of FloatType^4 divided by IntType is: " <<  ft << std::endl;
+    dt *= 3;
+    dt += static_cast<double>(it);
+    std::cout << "The result of DoubleType times 3 plus IntType is : " <<  dt << std::endl;
+    it /= static_cast<int>(pi);
+    it *= static_cast<int>(dt);
+    it -= static_cast<int>(ft);
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << static_cast<int>(it) << std::endl;
     std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << ((((it *= it) /= 0) /= 0.0f) /= 0.0) << std::endl;
+    it *= it;
+    it /= 0;
+    it /= 0.0f;
+    it /= 0.0;
+    std::cout <<  it << std::endl;
 
-    std::cout << "FloatType x IntType  =  " << (it *= static_cast<int>(ft)) << std::endl;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = "
-              << (((it += static_cast<int>(dt)) += static_cast<int>(ft)) *= 24) << std::endl;
+    it *= static_cast<int>(ft);
+    std::cout << "FloatType x IntType  =  " <<  it << std::endl;
+    it += static_cast<int>(dt);
+    it += static_cast<int>(ft);
+    it *= 24;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " <<  it << std::endl;
 }
 
 void part4()
@@ -586,26 +598,45 @@ int main()
     DoubleType dt ( 2 );
     IntType it ( 2 ) ;
 
-    std::cout << "FloatType add result=" << (ft += 2.0f) << std::endl;
-    std::cout << "FloatType subtract result=" << (ft -= 2.0f) << std::endl;
-    std::cout << "FloatType multiply result=" << (ft *= 2.0f) << std::endl;
-    std::cout << "FloatType divide result=" << (ft /= 16.0f) << std::endl << std::endl;
+    ft += 2.0f;
+    std::cout << "FloatType add result=" <<  ft << std::endl;
+    ft -= 2.0f;
+    std::cout << "FloatType subtract result=" <<  ft << std::endl;
+    ft *= 2.0f;
+    std::cout << "FloatType multiply result=" <<  ft << std::endl;
+    ft /= 16.0f;
+    std::cout << "FloatType divide result=" <<  ft << std::endl << std::endl;
 
-    std::cout << "DoubleType add result=" << (dt += 2.0) << std::endl;
-    std::cout << "DoubleType subtract result=" << (dt -= 2.0) << std::endl;
-    std::cout << "DoubleType multiply result=" << (dt *= 2.0) << std::endl;
-    std::cout << "DoubleType divide result=" << (dt /= 5.0) << std::endl << std::endl;
+    dt += 2.0;
+    std::cout << "DoubleType add result=" <<  dt << std::endl;
+    dt -= 2.0;
+    std::cout << "DoubleType subtract result=" <<  dt << std::endl;
+    dt *= 2.0;
+    std::cout << "DoubleType multiply result=" <<  dt << std::endl;
+    dt /= 5.0;
+    std::cout << "DoubleType divide result=" <<  dt << std::endl << std::endl;
 
-    std::cout << "IntType add result=" << (it += 2) << std::endl;
-    std::cout << "IntType subtract result=" << (it -= 2) << std::endl;
-    std::cout << "IntType multiply result=" << (it *= 2) << std::endl;
-    std::cout << "IntType divide result=" << (it /= 3) << std::endl << std::endl;
-    std::cout << "Chain calculation = " << (((((it *= 1000) /= 2) -= 10) += 100)) << std::endl;
+    it += 2;
+    std::cout << "IntType add result=" <<  it << std::endl;
+    it -= 2;
+    std::cout << "IntType subtract result=" <<  it << std::endl;
+    it *= 2;
+    std::cout << "IntType multiply result=" <<  it << std::endl;
+    it /= 3;
+    std::cout << "IntType divide result=" <<  it << std::endl << std::endl;
+    it *= 1000;
+    it /= 2;
+    it -= 10;
+    it += 100;
+    std::cout << "Chain calculation = " <<  it << std::endl;
 
         // FloatType object instanciation and method tests
     // --------
-    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << (((ft += 3.0f) *= 1.5f) /= 5.0f) << std::endl;
-       
+    ft += 3.0f;
+    ft *= 1.5f;
+    ft /= 5.0f;
+    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " <<  ft << std::endl;
+
     std::cout << "---------------------\n" << std::endl; 
     
     // DoubleType/IntType object instanciation and method tests
@@ -614,16 +645,22 @@ int main()
     std::cout << "Initial value of it: " << it << std::endl;
     // --------
     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << ((((dt *= it) /= 5.0) += static_cast<double>(ft))) << std::endl;
+    dt *= it;
+    dt /= 5.0;
+    dt += static_cast<double>(ft);
+    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " <<  dt << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
     
     // Intercept division by 0
     // --------
     std::cout << "Intercept division by 0 " << std::endl;
-    std::cout << "New value of it = it / 0 = " << (it /= 0) << std::endl;
-    std::cout << "New value of ft = ft / 0 = " << (ft /= 0) << std::endl;
-    std::cout << "New value of dt = dt / 0 = " << (dt /= 0) << std::endl;
+    it /= 0;
+    std::cout << "New value of it = it / 0 = " <<  it << std::endl;
+    ft /= 0;
+    std::cout << "New value of ft = ft / 0 = " <<  ft << std::endl;
+    dt /= 0;
+    std::cout << "New value of dt = dt / 0 = " <<  dt << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
 
