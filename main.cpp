@@ -1,45 +1,70 @@
 /*
- Project 4 - Part 3 / 9
- Video: Chapter 4 Part 3 
- Casting
+Project 4: Part 5 / 9
+ video: Chapter 5 Part 2
+ Operator Overloading.
 
- Create a branch named Part3
- 
- do not remove anything from main().  you'll be revising your main() to work with these new code changes.
- 
+Do not delete your previous main.
+
+ Create a branch named Part5
+
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
 
- 1) remove your functions that accepted a User-Defined Type
+ 1) replace the add/subtract/multiply/etc functions in your UDTs with overloaded math operators
+        e.g. add() would become operator+=() because it modifies the internal heap-allocated object.
+        The easiest way to do this is to just rename your member functions.
+        Do not: delete your member functions and add new ones.  Simply rename them
+        You do not need to change the Point class's multiply() functions.
  
- 2) remove any getValue() functions if you added them
+ 2) Your overloaded operators should only take primitives, passed by value.
+    since they are passed by value, they do not need to be const.
  
- 3) move all of your add/subtract/multiply/divide implementations out of the class.
-  
- 4) add user-defined conversion functions that convert to the numeric type your object holds.
-        i.e. if your type holds an int, you'll need an operator int() function. const
-        Remember: if a member function doesn't modify any member variables of the class it exists in, what qualifier can we add to that function's signature?
- 
- 5) make your member variable private.
-         this conversion function should be the ONLY WAY to access the held value.
-         use the proper casting technique to invoke this conversion function
- 
- 6) make sure it compiles & runs without errors.
- 
- 7) use your knowledge of casting to remove any conversion warnings. 
+ 3) don't delete your conversion functions.
 
- 8) insert 'part3();' before the 'good to go' at the end of your main(); 
-        move this part3 function to before main()
+ 4) your main() function should be the same as Project 4 part 4,
+    excluding the changes made due to 1)
 
- 9) click the [run] button.  Clear up any errors or warnings as best you can.
+ 5) delete the example below after it makes sense how your code will change due to 1).
+ */
 
+#include <iostream>
+namespace Example
+{
+    int main()
+    {
+        FloatType floatNum(4.3f);
+        IntType intNum(2);
+        IntType intNum2(6);
+
+        /*
+        if you previously had a line like this demonstrating chaining:
+
+            intNum.add(3).add(4.5f).divide(floatNum);
+
+        it should become:
+        */
+        intNum += 3;
+        intNum += 4.5f;
+        intNum /= floatNum;
+        std::cout << "intNum: " << intNum << std::endl;
+
+        return 0;
+    }
+}
+
+ /*
+ 6) compile/link/run to make sure you don't have any errors or warnings.
+
+ 7) your program should produce the exact same output as Project 4 part 4, listed below.
+    use https://www.diffchecker.com/diff to make sure it is the same.
  */
 
 /*
 your program should generate the following output EXACTLY.
-This includes the warnings.
+This includes any warnings included below.
+
 The output should have zero warnings.
-Use a service like https://www.diffchecker.com/diff to compare your output. 
+
 
 FloatType add result=4
 FloatType subtract result=2
@@ -85,9 +110,56 @@ error: integer division by zero is an error and will crash the program!
 505521
 FloatType x IntType  =  13143546
 (IntType + DoubleType + FloatType) x 24 = 315447336
+Power tests with FloatType
+pow(ft1, floatExp) = 2^2 = 4
+pow(ft1, itExp) = 4^2 = 16
+pow(ft1, ftExp) = 16^2 = 256
+pow(ft1, dtExp) = 256^2 = 65536
+---------------------
+
+Power tests with DoubleType
+pow(dt1, doubleExp) = 2^2 = 4
+pow(dt1, itExp) = 4^2 = 16
+pow(dt1, ftExp) = 16^2 = 256
+pow(dt1, dtExp) = 256^2 = 65536
+---------------------
+
+Power tests with IntType
+pow(it1, intExp) = 2^2 = 4
+pow(it1, itExp) = 4^2 = 16
+pow(it1, ftExp) = 16^2 = 256
+pow(it1, dtExp) = 256^2 = 65536
+===============================
+
+Point tests with float argument:
+Point { x: 3, y: 6 }
+Multiplication factor: 6
+Point { x: 18, y: 36 }
+---------------------
+
+Point tests with FloatType argument:
+Point { x: 3, y: 3 }
+Multiplication factor: 3
+Point { x: 9, y: 9 }
+---------------------
+
+Point tests with DoubleType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 4
+Point { x: 12, y: 16 }
+---------------------
+
+Point tests with IntType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 5
+Point { x: 15, y: 20 }
+---------------------
+
 good to go!
 
+Use a service like https://www.diffchecker.com/diff to compare your output.
 */
+
 
 struct A {};
 struct HeapA
@@ -364,12 +436,9 @@ IntType& IntType::powInternal(const int rhs)
 struct Point
 {
     Point(float x_, float y_) : x(x_), y(y_) { }
-    Point(double x_, double y_) : x(float(x_)), y(float(y_)) { }
-    Point(int x_, int y_) : x(float(x_)), y(float(y_)) { }
-
-    Point(FloatType& x_, FloatType& y_) : Point(float(x_), float(y_)) { }
-    Point(DoubleType& x_, DoubleType& y_) : Point(double(x_), double(y_)) { }
-    Point(IntType& x_, IntType& y_) : Point(int(x_), int(y_)) { }
+    Point(FloatType& x_, FloatType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
+    Point(DoubleType& x_, DoubleType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
+    Point(IntType& x_, IntType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
 
     Point& multiply(float m)
     {
@@ -380,17 +449,17 @@ struct Point
 
     Point& multiply(FloatType& rhs)
     {
-        return multiply(float(rhs));
+        return multiply(static_cast<float>(rhs));
     }
 
     Point& multiply(DoubleType& rhs)
     {
-        return multiply(float(rhs));
+        return multiply(static_cast<float>(rhs));
     }
 
     Point& multiply(IntType& rhs)
     {
-        return multiply(float(rhs));
+        return multiply(static_cast<float>(rhs));
     }
 
     void toString()
@@ -401,6 +470,24 @@ struct Point
 private:
     float x{0}, y{0};
 };
+
+void part3()
+{
+    FloatType ft( 5.5f );
+    DoubleType dt( 11.1 );
+    IntType it ( 34 );
+    DoubleType pi( 3.14 );
+
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( static_cast<float>(it) ) << std::endl;
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add( it ) << std::endl;
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: "
+              << static_cast<int>( it.divide( static_cast<int>(pi) ).multiply( static_cast<int>(dt) ).subtract( static_cast<int>(ft) ) ) << std::endl;
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
+    std::cout << it.multiply(it).divide(0).divide(0.0f).divide(0.0) << std::endl;
+
+    std::cout << "FloatType x IntType  =  " << it.multiply( static_cast<int>(ft) ) << std::endl;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( static_cast<int>(dt) ).add( static_cast<int>(ft) ).multiply( 24 ) << std::endl;
+}
 
 void part4()
 {
@@ -484,27 +571,6 @@ void part4()
     p3.multiply(it2);
     p3.toString();
     std::cout << "---------------------\n" << std::endl;
-}
-
-void part3()
-{
-    FloatType ft( 5.5f );
-    DoubleType dt( 11.1 );
-    IntType it ( 34 );
-    DoubleType pi( 3.14 );
-
-    std::cout << "The result of FloatType^4 divided by IntType is: "
-              << ((((ft *= ft) *= ft) *= ft) /= static_cast<float>(it)) << std::endl;
-    std::cout << "The result of DoubleType times 3 plus IntType is : " << ((dt *= 3) += it) << std::endl;
-    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: "
-              << (static_cast<int>(((it /= static_cast<int>(pi)) *= static_cast<int>(dt)) -= static_cast<int>(ft)))
-              << std::endl;
-    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << ((((it *= it) /= 0) /= 0.0f) /= 0.0) << std::endl;
-
-    std::cout << "FloatType x IntType  =  " << (it *= static_cast<int>(ft)) << std::endl;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = "
-              << (((it += static_cast<int>(dt)) += static_cast<int>(ft)) *= 24) << std::endl;
 }
 
 int main()
