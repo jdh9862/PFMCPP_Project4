@@ -782,12 +782,15 @@ int main()
     // Intercept division by 0
     // --------
     std::cout << "Intercept division by 0 " << std::endl;
+    std::cout << "New value of it = it / 0 = ";
     it /= 0;
-    std::cout << "New value of it = it / 0 = " <<  it << std::endl;
+    std::cout <<  it << std::endl;
+    std::cout << "New value of ft = ft / 0 = ";
     ft /= 0;
-    std::cout << "New value of ft = ft / 0 = " <<  ft << std::endl;
+    std::cout  <<  ft << std::endl;
+    std::cout << "New value of dt = dt / 0 = ";
     dt /= 0;
-    std::cout << "New value of dt = dt / 0 = " <<  dt << std::endl;
+    std::cout  <<  dt << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
 
