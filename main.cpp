@@ -429,7 +429,7 @@ struct Point
 {
     Point(float x_, float y_) : x(x_), y(y_) { }
     Point(FloatType& x_, FloatType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
-    Point(DoubleType& x_, DoubleType& y_) : Point(static_cast<float>(static_cast<double>(x_)), static_cast<float>(static_cast<double>(y_))) { }
+    Point(DoubleType& x_, DoubleType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
     Point(IntType& x_, IntType& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
 
     Point& multiply(float m)
