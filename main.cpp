@@ -264,10 +264,8 @@ struct Numeric
         return static_cast<float>(*value);
     }
 
-    Numeric<Type>& pow(Type rhs);
-
     template<class Param>
-    Numeric<Type>& pow(const Numeric<Param>& rhs)
+    Numeric<Type>& pow(const Param& rhs)
     {
         return powInternal(static_cast<Type>(rhs));
     }
@@ -300,12 +298,6 @@ Numeric<Type>& Numeric<Type>::operator*=(Type rhs)
 {
     *value *= rhs;
     return *this;
-}
-
-template<typename Type>
-Numeric<Type>& Numeric<Type>::pow(Type rhs)
-{
-    return powInternal(rhs);
 }
 
 template<typename Type>
