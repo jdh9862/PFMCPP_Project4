@@ -238,7 +238,7 @@ struct Numeric
         {
             if (std::is_same<Param, int>::value)
             {
-                if(rhs == 0)
+                if(std::abs(rhs) <= std::numeric_limits<Type>::epsilon())
                 {
                     std::cout << "error: integer division by zero is an error and will crash the program!\n";
                     return *this;
@@ -261,7 +261,7 @@ struct Numeric
 
     operator Type() const
     {
-        return static_cast<float>(*value);
+        return static_cast<Type>(*value);
     }
 
     template<class Param>
@@ -365,7 +365,7 @@ struct Numeric<double>
 
     operator Type() const
     {
-        return static_cast<float>(*value);
+        return static_cast<Type>(*value);
     }
 
     template<class Param>
@@ -420,10 +420,10 @@ private:
     float x{0}, y{0};
 };
 
-template<typename T>
-void myNumericFreeFunct(T& t)
+template<typename Type>
+void myNumericFreeFunct(Type& t)
 {
-    t += 7.0f;
+    t += static_cast<Type>(7);
 }
 
 void part3()
