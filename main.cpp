@@ -327,6 +327,70 @@ Numeric<Type>& Numeric<Type>::apply(void (* func)(Type&))
     return *this;
 }
 
+template<>
+struct Numeric<double>
+{
+    using Type = double;
+
+    explicit Numeric(Type lhs) : value(std::make_unique<Type>(lhs)) {}
+
+    Numeric<Type>& operator+=(Type rhs)
+    {
+        *value += rhs;
+        return *this;
+    }
+
+    Numeric<Type>& operator-=(Type rhs)
+    {
+        *value -= rhs;
+        return *this;
+    }
+
+    Numeric<Type>& operator*=(Type rhs)
+    {
+        *value *= rhs;
+        return *this;
+    }
+
+    template<typename Param>
+    Numeric& operator/=(Param rhs )
+    {
+        if (std::abs(rhs) <= std::numeric_limits<Type>::epsilon())
+        {
+            std::cout << "warning: floating point division by zero!" << std::endl;
+        }
+        *value /= rhs;
+        return *this;
+    }
+
+    operator Type() const
+    {
+        return static_cast<float>(*value);
+    }
+
+    template<class Param>
+    Numeric<Type>& pow(const Param& rhs)
+    {
+        return powInternal(static_cast<Type>(rhs));
+    }
+
+    template<typename Func>
+    Numeric<Type>& apply(Func func)
+    {
+        func(*value);
+        return *this;
+    }
+
+private:
+    std::unique_ptr<Type> value;
+
+    Numeric<Type>& powInternal(Type rhs)
+    {
+        *value = static_cast<Type>(std::pow(*value, rhs));
+        return *this;
+    }
+};
+
 struct Point
 {
     Point(float x_, float y_) : x(x_), y(y_) { }
