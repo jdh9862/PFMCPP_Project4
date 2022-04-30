@@ -230,7 +230,34 @@ struct Numeric
     Numeric<Type>& operator+=(Type rhs);
     Numeric<Type>& operator-=(Type rhs);
     Numeric<Type>& operator*=(Type rhs);
-    Numeric<Type>& operator/=(Type rhs);
+
+    template<typename Param>
+    Numeric& operator/=(Param rhs )
+    {
+        if (std::is_same<Type, int>::value)
+        {
+            if (std::is_same<Param, int>::value)
+            {
+                if(rhs == 0)
+                {
+                    std::cout << "error: integer division by zero is an error and will crash the program!\n";
+                    return *this;
+                }
+            }
+            else if (std::abs(rhs) <= std::numeric_limits<Type>::epsilon())
+            {
+                std::cout << "can't divide integers by zero!\n";
+                return *this;
+            }
+        }
+        else if (std::abs(rhs) <= std::numeric_limits<Type>::epsilon())
+        {
+            std::cout << "warning: floating point division by zero!" << std::endl;
+        }
+
+        *value /= rhs;
+        return *this;
+    }
 
     operator Type() const
     {
@@ -272,20 +299,6 @@ template<typename Type>
 Numeric<Type>& Numeric<Type>::operator*=(Type rhs)
 {
     *value *= rhs;
-    return *this;
-}
-
-template<typename Type>
-Numeric<Type>& Numeric<Type>::operator/=(Type rhs)
-{
-    if (rhs == 0.0f)
-    {
-        std::cout << "warning: floating point division by zero!" << std::endl;
-    }
-    else
-    {
-        *value /= rhs;
-    }
     return *this;
 }
 
