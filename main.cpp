@@ -232,7 +232,7 @@ struct Numeric
     Numeric<Type>& operator*=(Type rhs);
     Numeric<Type>& operator/=(Type rhs);
 
-    operator float() const
+    operator Type() const
     {
         return static_cast<float>(*value);
     }
