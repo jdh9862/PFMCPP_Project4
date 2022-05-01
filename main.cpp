@@ -227,12 +227,12 @@ struct Numeric
 
     explicit Numeric(Type lhs) : value(std::make_unique<Type>(lhs)) {}
 
-    Numeric<Type>& operator+=(Type rhs);
-    Numeric<Type>& operator-=(Type rhs);
-    Numeric<Type>& operator*=(Type rhs);
+    Numeric<Type>& operator+=(const Type& rhs);
+    Numeric<Type>& operator-=(const Type& rhs);
+    Numeric<Type>& operator*=(const Type& rhs);
 
     template<typename Param>
-    Numeric& operator/=(Param rhs )
+    Numeric& operator/=(const Param& rhs )
     {
         if (std::is_same<Type, int>::value)
         {
@@ -276,32 +276,32 @@ struct Numeric
 private:
     std::unique_ptr<Type> value;
 
-    Numeric<Type>& powInternal(Type rhs);
+    Numeric<Type>& powInternal(const Type& rhs);
 };
 
 template<typename Type>
-Numeric<Type>& Numeric<Type>::operator+=(Type rhs)
+Numeric<Type>& Numeric<Type>::operator+=(const Type& rhs)
 {
     *value += rhs;
     return *this;
 }
 
 template<typename Type>
-Numeric<Type>& Numeric<Type>::operator-=(Type rhs)
+Numeric<Type>& Numeric<Type>::operator-=(const Type& rhs)
 {
     *value -= rhs;
     return *this;
 }
 
 template<typename Type>
-Numeric<Type>& Numeric<Type>::operator*=(Type rhs)
+Numeric<Type>& Numeric<Type>::operator*=(const Type& rhs)
 {
     *value *= rhs;
     return *this;
 }
 
 template<typename Type>
-Numeric<Type>& Numeric<Type>::powInternal(const Type rhs)
+Numeric<Type>& Numeric<Type>::powInternal(const Type& rhs)
 {
     *value = static_cast<Type>(std::pow(*value, rhs));
     return *this;
@@ -334,26 +334,25 @@ struct Numeric<double>
 
     explicit Numeric(Type lhs) : value(std::make_unique<Type>(lhs)) {}
 
-    Numeric<Type>& operator+=(Type rhs)
+    Numeric<Type>& operator+=(const Type& rhs)
     {
         *value += rhs;
         return *this;
     }
 
-    Numeric<Type>& operator-=(Type rhs)
+    Numeric<Type>& operator-=(const Type& rhs)
     {
         *value -= rhs;
         return *this;
     }
 
-    Numeric<Type>& operator*=(Type rhs)
+    Numeric<Type>& operator*=(const Type& rhs)
     {
         *value *= rhs;
         return *this;
     }
 
-    template<typename Param>
-    Numeric& operator/=(Param rhs )
+    Numeric& operator/=(const Type& rhs )
     {
         if (std::abs(rhs) <= std::numeric_limits<Type>::epsilon())
         {
@@ -384,7 +383,7 @@ struct Numeric<double>
 private:
     std::unique_ptr<Type> value;
 
-    Numeric<Type>& powInternal(Type rhs)
+    Numeric<Type>& powInternal(const Type& rhs)
     {
         *value = static_cast<Type>(std::pow(*value, rhs));
         return *this;
@@ -411,7 +410,7 @@ struct Point
         return multiply(static_cast<float>(rhs));
     }
 
-    void toString()
+    void toString() const
     {
         std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
     }
@@ -615,7 +614,7 @@ void part7()
 
     {
         using Type = decltype(ft3)::Type;
-        ft3.apply([&](Type& t) ->Numeric<float>&
+        ft3.apply([&](Type& t) -> Numeric<float>&
                   {
                       t += 7.0f;
                       return ft3;
@@ -634,7 +633,7 @@ void part7()
 
     {
         using Type = decltype(dt3)::Type;
-        dt3.apply([&](Type& t) ->Numeric<double>&
+        dt3.apply([&](Type& t) -> Numeric<double>&
                   {
                       t += 6.0;
                       return dt3;
@@ -653,7 +652,7 @@ void part7()
 
     {
         using Type = decltype(it3)::Type;
-        it3.apply([&](Type& t) ->Numeric<int>&
+        it3.apply([&](Type& t) -> Numeric<int>&
                   {
                       t += 5;
                       return it3;
@@ -710,15 +709,15 @@ int main()
     it += 100;
     std::cout << "Chain calculation = " <<  it << std::endl;
 
-        // FloatType object instanciation and method tests
+    // FloatType object instanciation and method tests
     // --------
     ft += 3.0f;
     ft *= 1.5f;
     ft /= 5.0f;
     std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " <<  ft << std::endl;
 
-    std::cout << "---------------------\n" << std::endl; 
-    
+    std::cout << "---------------------\n" << std::endl;
+
     // DoubleType/IntType object instanciation and method tests
     // --------
     std::cout << "Initial value of dt: " << dt << std::endl;
@@ -730,8 +729,8 @@ int main()
     dt += static_cast<double>(ft);
     std::cout << "New value of dt = (dt * it) / 5.0f + ft = " <<  dt << std::endl;
 
-    std::cout << "---------------------\n" << std::endl; 
-    
+    std::cout << "---------------------\n" << std::endl;
+
     // Intercept division by 0
     // --------
     std::cout << "Intercept division by 0 " << std::endl;
@@ -745,7 +744,7 @@ int main()
     dt /= 0;
     std::cout  <<  dt << std::endl;
 
-    std::cout << "---------------------\n" << std::endl; 
+    std::cout << "---------------------\n" << std::endl;
 
     part3();
     part4();
