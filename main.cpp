@@ -395,7 +395,7 @@ struct Point
     Point(float x_, float y_) : x(x_), y(y_) { }
 
     template<typename Param>
-    Point(Numeric<Param>& x_, Numeric<Param>& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
+    Point(const Param& x_, const Param& y_) : Point(static_cast<float>(x_), static_cast<float>(y_)) { }
 
     Point& multiply(float m)
     {
