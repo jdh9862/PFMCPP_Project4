@@ -233,9 +233,26 @@ struct Numeric
 
     explicit Numeric(Type lhs) : value(std::make_unique<Type>(lhs)) {}
 
-    Numeric<Type>& operator+=(const Type& rhs);
-    Numeric<Type>& operator-=(const Type& rhs);
-    Numeric<Type>& operator*=(const Type& rhs);
+    template<class Param>
+    Numeric<Type>& operator+=(const Param& rhs)
+    {
+        *value += static_cast<Type>(rhs);
+        return *this;
+    }
+
+    template<class Param>
+    Numeric<Type>& operator-=(const Param& rhs)
+    {
+        *value -= static_cast<Type>(rhs);
+        return *this;
+    }
+
+    template<class Param>
+    Numeric<Type>& operator*=(const Param& rhs)
+    {
+        *value *= static_cast<Type>(rhs);
+        return *this;
+    }
 
     template<typename Param>
     Numeric& operator/=(const Param& rhs )
@@ -284,27 +301,6 @@ private:
 
     Numeric<Type>& powInternal(const Type& rhs);
 };
-
-template<typename Type>
-Numeric<Type>& Numeric<Type>::operator+=(const Type& rhs)
-{
-    *value += rhs;
-    return *this;
-}
-
-template<typename Type>
-Numeric<Type>& Numeric<Type>::operator-=(const Type& rhs)
-{
-    *value -= rhs;
-    return *this;
-}
-
-template<typename Type>
-Numeric<Type>& Numeric<Type>::operator*=(const Type& rhs)
-{
-    *value *= rhs;
-    return *this;
-}
 
 template<typename Type>
 Numeric<Type>& Numeric<Type>::powInternal(const Type& rhs)
@@ -377,26 +373,26 @@ void part3()
 
     ft *= ft;
     ft *= ft;
-    ft /= static_cast<float>(it);
+    ft /= it;
     std::cout << "The result of FloatType^4 divided by IntType is: " <<  ft << std::endl;
     dt *= 3;
-    dt += static_cast<double>(it);
+    dt += it;
     std::cout << "The result of DoubleType times 3 plus IntType is : " <<  dt << std::endl;
-    it /= static_cast<int>(pi);
-    it *= static_cast<int>(dt);
-    it -= static_cast<int>(ft);
+    it /= pi;
+    it *= dt;
+    it -= ft;
     std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << static_cast<int>(it) << std::endl;
     std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    it *= static_cast<int>(it);
+    it *= it;
     it /= 0;
     it /= 0.0f;
     it /= 0.0;
     std::cout <<  it << std::endl;
 
-    it *= static_cast<int>(ft);
+    it *= ft;
     std::cout << "FloatType x IntType  =  " <<  it << std::endl;
-    it += static_cast<int>(dt);
-    it += static_cast<int>(ft);
+    it += dt;
+    it += ft;
     it *= 24;
     std::cout << "(IntType + DoubleType + FloatType) x 24 = " <<  it << std::endl;
 }
@@ -468,7 +464,7 @@ void part4()
 
     // Point tests with DoubleType
     std::cout << "Point tests with DoubleType argument:" << std::endl;
-    Point p2(ft2, static_cast<float>(dt2));
+    Point p2(ft2, dt2);
     p2.toString();
     std::cout << "Multiplication factor: " << dt2 << std::endl;
     p2.multiply(dt2);
@@ -477,7 +473,7 @@ void part4()
 
     // Point tests with IntType
     std::cout << "Point tests with IntType argument:" << std::endl;
-    Point p3(ft2, static_cast<float>(dt2));
+    Point p3(ft2, dt2);
     p3.toString();
     std::cout << "Multiplication factor: " << it2 << std::endl;
     p3.multiply(it2);
@@ -669,7 +665,7 @@ int main()
     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
     dt *= it;
     dt /= 5.0;
-    dt += static_cast<double>(ft);
+    dt += ft;
     std::cout << "New value of dt = (dt * it) / 5.0f + ft = " <<  dt << std::endl;
 
     std::cout << "---------------------\n" << std::endl;
