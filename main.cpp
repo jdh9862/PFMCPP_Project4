@@ -106,88 +106,6 @@ i cubed: 531441
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
-//#include <iostream>
-//int main()
-//{
-//    Numeric<float> f(0.1f);
-//    Numeric<int> i(3);
-//    Numeric<double> d(4.2);
-//
-//    f += 2.f;
-//    f -= i;
-//    f *= d;
-//    f /= 2.f;
-//    std::cout << "f: " << f << std::endl;
-//
-//    d += 2.f;
-//    d -= i;
-//    d *= f;
-//    d /= 2.f;
-//    std::cout << "d: " << d << std::endl;
-//
-//    i += 2.f; i -= f; i *= d; i /= 2.f;
-//    std::cout << "i: "<< i << std::endl;
-//
-//    Point p(f, i);
-//    p.toString();
-//
-//    d *= -1;
-//    std::cout << "d: " << d << std::endl;
-//
-//    p.multiply(d.pow(f).pow(i));
-//    std::cout << "d: " << d << std::endl;
-//
-//    p.toString();
-//
-//    Numeric<float> floatNum(4.3f);
-//    Numeric<int> intNum(2);
-//    Numeric<int> intNum2(6);
-//    intNum = 2 + (intNum2 - 4) + static_cast<double>(floatNum) / 2.3;
-//    std::cout << "intNum: " << intNum << std::endl;
-//
-//    {
-//        using Type = decltype(f)::Type;
-//        f.apply([&f](std::unique_ptr<Type>&value) -> decltype(f)&
-//                {
-//                    auto& v = *value;
-//                    v = v * v;
-//                    return f;
-//                });
-//        std::cout << "f squared: " << f << std::endl;
-//
-//        f.apply( cube<Type> );
-//        std::cout << "f cubed: " << f << std::endl;
-//    }
-//
-//    {
-//        using Type = decltype(d)::Type;
-//        d.apply([&d](std::unique_ptr<Type>&value) -> decltype(d)&
-//                {
-//                    auto& v = *value;
-//                    v = v * v;
-//                    return d;
-//                });
-//        std::cout << "d squared: " << d << std::endl;
-//
-//        d.apply( cube<Type> );
-//        std::cout << "d cubed: " << d << std::endl;
-//    }
-//
-//    {
-//        using Type = decltype(i)::Type;
-//        i.apply([&i](std::unique_ptr<Type>&value) -> decltype(i)&
-//                {
-//                    auto& v = *value;
-//                    v = v * v;
-//                    return i;
-//                });
-//        std::cout << "i squared: " << i << std::endl;
-//
-//        i.apply( cube<Type> );
-//        std::cout << "i cubed: " << i << std::endl;
-//    }
-//}
-
 
 struct A {};
 
@@ -225,6 +143,9 @@ private:
     static int counter;
     NumericType v;
 };
+
+template<typename NumericType>
+int Temporary<NumericType>::counter = 0;
 
 template<typename T>
 struct Numeric
@@ -598,96 +519,175 @@ void part7()
     std::cout << "---------------------\n" << std::endl;
 }
 
+//int main()
+//{
+//    //testing instruction 0
+//    HeapA heapA;
+//
+//    //assign heap primitives
+//    Numeric<float> ft ( 2.0f );
+//    Numeric<double> dt ( 2 );
+//    Numeric<int> it ( 2 ) ;
+//
+//    ft += 2.0f;
+//    std::cout << "FloatType add result=" <<  ft << std::endl;
+//    ft -= 2.0f;
+//    std::cout << "FloatType subtract result=" <<  ft << std::endl;
+//    ft *= 2.0f;
+//    std::cout << "FloatType multiply result=" <<  ft << std::endl;
+//    ft /= 16.0f;
+//    std::cout << "FloatType divide result=" <<  ft << std::endl << std::endl;
+//
+//    dt += 2.0;
+//    std::cout << "DoubleType add result=" <<  dt << std::endl;
+//    dt -= 2.0;
+//    std::cout << "DoubleType subtract result=" <<  dt << std::endl;
+//    dt *= 2.0;
+//    std::cout << "DoubleType multiply result=" <<  dt << std::endl;
+//    dt /= 5.0;
+//    std::cout << "DoubleType divide result=" <<  dt << std::endl << std::endl;
+//
+//    it += 2;
+//    std::cout << "IntType add result=" <<  it << std::endl;
+//    it -= 2;
+//    std::cout << "IntType subtract result=" <<  it << std::endl;
+//    it *= 2;
+//    std::cout << "IntType multiply result=" <<  it << std::endl;
+//    it /= 3;
+//    std::cout << "IntType divide result=" <<  it << std::endl << std::endl;
+//    it *= 1000;
+//    it /= 2;
+//    it -= 10;
+//    it += 100;
+//    std::cout << "Chain calculation = " <<  it << std::endl;
+//
+//    // FloatType object instanciation and method tests
+//    // --------
+//    ft += 3.0f;
+//    ft *= 1.5f;
+//    ft /= 5.0f;
+//    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " <<  ft << std::endl;
+//
+//    std::cout << "---------------------\n" << std::endl;
+//
+//    // DoubleType/IntType object instanciation and method tests
+//    // --------
+//    std::cout << "Initial value of dt: " << dt << std::endl;
+//    std::cout << "Initial value of it: " << it << std::endl;
+//    // --------
+//    std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
+//    dt *= it;
+//    dt /= 5.0;
+//    dt += ft;
+//    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " <<  dt << std::endl;
+//
+//    std::cout << "---------------------\n" << std::endl;
+//
+//    // Intercept division by 0
+//    // --------
+//    std::cout << "Intercept division by 0 " << std::endl;
+//    std::cout << "New value of it = it / 0 = ";
+//    it /= 0;
+//    std::cout <<  it << std::endl;
+//    std::cout << "New value of ft = ft / 0 = ";
+//    ft /= 0;
+//    std::cout  <<  ft << std::endl;
+//    std::cout << "New value of dt = dt / 0 = ";
+//    dt /= 0;
+//    std::cout  <<  dt << std::endl;
+//
+//    std::cout << "---------------------\n" << std::endl;
+//
+//    part3();
+//    part4();
+////    part6();
+//    part7();
+//
+//    std::cout << "good to go!\n";
+//
+//    return 0;
+//}
+
 int main()
 {
-    //testing instruction 0
-    HeapA heapA;
+    Numeric<float> f(0.1f);
+    Numeric<int> i(3);
+    Numeric<double> d(4.2);
 
-    //assign heap primitives
-    Numeric<float> ft ( 2.0f );
-    Numeric<double> dt ( 2 );
-    Numeric<int> it ( 2 ) ;
+    f += 2.f;
+    f -= i;
+    f *= d;
+    f /= 2.f;
+    std::cout << "f: " << f << std::endl;
 
-    ft += 2.0f;
-    std::cout << "FloatType add result=" <<  ft << std::endl;
-    ft -= 2.0f;
-    std::cout << "FloatType subtract result=" <<  ft << std::endl;
-    ft *= 2.0f;
-    std::cout << "FloatType multiply result=" <<  ft << std::endl;
-    ft /= 16.0f;
-    std::cout << "FloatType divide result=" <<  ft << std::endl << std::endl;
+    d += 2.f;
+    d -= i;
+    d *= f;
+    d /= 2.f;
+    std::cout << "d: " << d << std::endl;
 
-    dt += 2.0;
-    std::cout << "DoubleType add result=" <<  dt << std::endl;
-    dt -= 2.0;
-    std::cout << "DoubleType subtract result=" <<  dt << std::endl;
-    dt *= 2.0;
-    std::cout << "DoubleType multiply result=" <<  dt << std::endl;
-    dt /= 5.0;
-    std::cout << "DoubleType divide result=" <<  dt << std::endl << std::endl;
+    i += 2.f; i -= f; i *= d; i /= 2.f;
+    std::cout << "i: "<< i << std::endl;
 
-    it += 2;
-    std::cout << "IntType add result=" <<  it << std::endl;
-    it -= 2;
-    std::cout << "IntType subtract result=" <<  it << std::endl;
-    it *= 2;
-    std::cout << "IntType multiply result=" <<  it << std::endl;
-    it /= 3;
-    std::cout << "IntType divide result=" <<  it << std::endl << std::endl;
-    it *= 1000;
-    it /= 2;
-    it -= 10;
-    it += 100;
-    std::cout << "Chain calculation = " <<  it << std::endl;
+    Point p(f, i);
+    p.toString();
 
-    // FloatType object instanciation and method tests
-    // --------
-    ft += 3.0f;
-    ft *= 1.5f;
-    ft /= 5.0f;
-    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " <<  ft << std::endl;
+    d *= -1;
+    std::cout << "d: " << d << std::endl;
 
-    std::cout << "---------------------\n" << std::endl;
+    p.multiply(d.pow(f).pow(i));
+    std::cout << "d: " << d << std::endl;
 
-    // DoubleType/IntType object instanciation and method tests
-    // --------
-    std::cout << "Initial value of dt: " << dt << std::endl;
-    std::cout << "Initial value of it: " << it << std::endl;
-    // --------
-    std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    dt *= it;
-    dt /= 5.0;
-    dt += ft;
-    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " <<  dt << std::endl;
+    p.toString();
 
-    std::cout << "---------------------\n" << std::endl;
-
-    // Intercept division by 0
-    // --------
-    std::cout << "Intercept division by 0 " << std::endl;
-    std::cout << "New value of it = it / 0 = ";
-    it /= 0;
-    std::cout <<  it << std::endl;
-    std::cout << "New value of ft = ft / 0 = ";
-    ft /= 0;
-    std::cout  <<  ft << std::endl;
-    std::cout << "New value of dt = dt / 0 = ";
-    dt /= 0;
-    std::cout  <<  dt << std::endl;
-
-    std::cout << "---------------------\n" << std::endl;
-
-    part3();
-    part4();
-//    part6();
-    part7();
-
-    std::cout << "good to go!\n";
-
-    return 0;
+    Numeric<float> floatNum(4.3f);
+    Numeric<int> intNum(2);
+    Numeric<int> intNum2(6);
+//    intNum = 2 + (intNum2 - 4) + static_cast<double>(floatNum) / 2.3;
+//    std::cout << "intNum: " << intNum << std::endl;
+//
+//    {
+//        using Type = decltype(f)::Type;
+//        f.apply([&f](std::unique_ptr<Type>&value) -> decltype(f)&
+//                {
+//                    auto& v = *value;
+//                    v = v * v;
+//                    return f;
+//                });
+//        std::cout << "f squared: " << f << std::endl;
+//
+//        f.apply( cube<Type> );
+//        std::cout << "f cubed: " << f << std::endl;
+//    }
+//
+//    {
+//        using Type = decltype(d)::Type;
+//        d.apply([&d](std::unique_ptr<Type>&value) -> decltype(d)&
+//                {
+//                    auto& v = *value;
+//                    v = v * v;
+//                    return d;
+//                });
+//        std::cout << "d squared: " << d << std::endl;
+//
+//        d.apply( cube<Type> );
+//        std::cout << "d cubed: " << d << std::endl;
+//    }
+//
+//    {
+//        using Type = decltype(i)::Type;
+//        i.apply([&i](std::unique_ptr<Type>&value) -> decltype(i)&
+//                {
+//                    auto& v = *value;
+//                    v = v * v;
+//                    return i;
+//                });
+//        std::cout << "i squared: " << i << std::endl;
+//
+//        i.apply( cube<Type> );
+//        std::cout << "i cubed: " << i << std::endl;
+//    }
 }
-
-
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
