@@ -290,7 +290,8 @@ struct Numeric
     template<class Param>
     Numeric<Type>& pow(const Param& rhs)
     {
-        return powInternal(static_cast<Type>(rhs));
+        *value = static_cast<Type>(std::pow(*value, static_cast<Type>(rhs)));
+        return *this;
     }
 
     Numeric<Type>& apply(std::function<Numeric<Type>&(Type&)>);
@@ -298,16 +299,7 @@ struct Numeric
 
 private:
     std::unique_ptr<Type> value;
-
-    Numeric<Type>& powInternal(const Type& rhs);
 };
-
-template<typename Type>
-Numeric<Type>& Numeric<Type>::powInternal(const Type& rhs)
-{
-    *value = static_cast<Type>(std::pow(*value, rhs));
-    return *this;
-}
 
 template<typename Type>
 Numeric<Type>& Numeric<Type>::apply(std::function<Numeric<Type>&(Type&)> func)
