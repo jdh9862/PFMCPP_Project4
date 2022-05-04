@@ -122,7 +122,6 @@ struct HeapA
 #include <iostream>
 #include <cmath>
 #include <memory>
-#include <typeinfo>
 
 template<typename NumericType>
 struct Temporary
@@ -154,7 +153,7 @@ struct Numeric
     explicit Numeric(Type lhs) : value(std::make_unique<Type>(lhs)) {}
 
     template<typename Param>
-    Numeric& operator=( const Param& rhs )
+    Numeric& operator=(const Param& rhs)
     {
         *value = static_cast<T>(rhs);
         return *this;
@@ -175,14 +174,14 @@ struct Numeric
     }
 
     template<typename ParamType>
-    Numeric& operator*=( const ParamType& rhs )
+    Numeric& operator*=(const ParamType& rhs)
     {
         *value *= static_cast<T>(rhs);
         return *this;
     }
 
     template<typename Param>
-    Numeric& operator/=( const Param rhs )
+    Numeric& operator/=(const Param& rhs)
     {
         if (std::is_same<Type, int>::value)
         {
