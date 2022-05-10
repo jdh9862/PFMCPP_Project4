@@ -13,14 +13,6 @@ Create a branch named Part9
  2) move these macros after the JUCE_LEAK_DETECTOR macro :
  */
 
-#define JUCE_DECLARE_NON_COPYABLE(className) \
-            className (const className&) = delete;\
-            className& operator= (const className&) = delete;
-
-#define JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(className) \
-            JUCE_DECLARE_NON_COPYABLE(className) \
-            JUCE_LEAK_DETECTOR(className)
-
 /*
  3) add JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary) to the end of the  Temporary<> struct
  
@@ -70,39 +62,6 @@ i cubed: 531441
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
-#include <typeinfo>
-#include <memory>
-#include<iostream>
-#include<cmath>
-#include <functional>
-
-template<typename NumericType>
-struct Temporary
-{
-    Temporary(NumericType t) : v(t)
-    {
-        std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
-                  << counter++ << std::endl;
-    }
-
-    operator NumericType() const 
-    { 
-        return v;
-    }
-    operator NumericType&() 
-    {
-       return v;
-    }
-private:
-    static int counter;
-    NumericType v;
-};
-
-
-template<typename Type>
-int Temporary<Type>::counter = 0;
-
-
 struct A {};
 
 struct HeapA
@@ -118,6 +77,7 @@ struct HeapA
 #include <iostream>
 #include <cmath>
 #include <memory>
+#include "LeakedObjectDetector.h"
 
 template<typename NumericType>
 struct Temporary
@@ -127,6 +87,17 @@ struct Temporary
         std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
                   << counter++ << std::endl;
     }
+
+    Temporary(Temporary&& other) noexcept : v(std::move(other.v)) {}
+
+    Temporary& operator=(Temporary&& other) noexcept
+    {
+        v = std::move(other.v);
+        return *this;
+    }
+
+    ~Temporary() = default;
+
     /*
      revise these conversion functions to read/write to 'v' here
      hint: what qualifier do read-only functions usually have?
@@ -136,6 +107,8 @@ struct Temporary
 private:
     static int counter;
     NumericType v;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary)
 };
 
 template<typename NumericType>
@@ -146,10 +119,20 @@ struct Numeric
 {
     using Type = Temporary<T>;
 
-    explicit Numeric(Type lhs) : value(std::make_unique<Type>(lhs)) {}
+    explicit Numeric(T lhs) : value(std::make_unique<Type>(lhs)) {}
 
-    template<typename Param>
-    Numeric& operator=(const Param& rhs)
+    Numeric(Numeric&& other) noexcept : value(std::move(other.value)) {}
+
+    Numeric& operator=(Numeric&& other)  noexcept
+    {
+        value = std::move(other.value);
+        return *this;
+    }
+
+    ~Numeric() = default;
+
+    template<typename ParamType>
+    Numeric& operator=( const ParamType& rhs )
     {
         *value = static_cast<T>(rhs);
         return *this;
@@ -230,6 +213,8 @@ struct Numeric
 
 private:
     std::unique_ptr<Type> value;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Numeric)
 };
 
 struct Point
