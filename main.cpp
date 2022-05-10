@@ -96,8 +96,6 @@ struct Temporary
         return *this;
     }
 
-    ~Temporary() {}
-
     /*
      revise these conversion functions to read/write to 'v' here
      hint: what qualifier do read-only functions usually have?
@@ -128,8 +126,6 @@ struct Numeric
         value = std::move(other.value);
         return *this;
     }
-
-    ~Numeric() {}
 
     template<typename ParamType>
     Numeric& operator=( const ParamType& rhs )
